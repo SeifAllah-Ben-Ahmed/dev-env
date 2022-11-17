@@ -5,6 +5,7 @@ import "bulmaswatch/superhero/bulmaswatch.min.css";
 const App = () => {
   return (
     <>
+      {/* Folder 16 */}
       {/* <CodeCell /> */}
       <TextEditor />
     </>
