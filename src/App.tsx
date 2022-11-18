@@ -1,13 +1,9 @@
-import TextEditor from "./components/text-editor";
-
-import "bulmaswatch/superhero/bulmaswatch.min.css";
+import CellList from "./components/cell-list";
 
 const App = () => {
   return (
     <>
-      {/* Folder 16 */}
-      {/* <CodeCell /> */}
-      <TextEditor />
+      <CellList />
     </>
   );
 };

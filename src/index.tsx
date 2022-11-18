@@ -5,6 +5,9 @@ import { Provider } from "react-redux";
 import App from "./App";
 import { store } from "./state";
 
+import "@fortawesome/fontawesome-free/css/all.min.css";
+import "bulmaswatch/superhero/bulmaswatch.min.css";
+
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
