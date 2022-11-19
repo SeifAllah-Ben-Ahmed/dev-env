@@ -1,10 +1,11 @@
-import { useEffect, useState, useRef } from "react";
+import { useState, useRef } from "react";
 import MDEditor from "@uiw/react-md-editor";
 
 import { Cell } from "../state";
 import { useActions } from "../hooks/use-actions";
 
 import "../style/text-editor.css";
+import { useClickOutside } from "../hooks/use-click-outside";
 
 interface TextEditorProps {
   cell: Cell;
@@ -15,18 +16,7 @@ const TextEditor: React.FC<TextEditorProps> = ({ cell }) => {
   const { updateCell } = useActions();
   const [edditing, setEdditing] = useState(false);
 
-  useEffect(() => {
-    const listener = (event: MouseEvent) => {
-      if (ref.current && event?.target && ref.current.contains(event.target)) {
-        return;
-      }
-      setEdditing(false);
-    };
-    document.addEventListener("click", listener, { capture: true });
-    return () => {
-      document.removeEventListener("click", listener, { capture: true });
-    };
-  }, []);
+  useClickOutside(ref, setEdditing);
 
   return (
     <div data-color-mode="dark">
