@@ -7,6 +7,7 @@ import { Cell } from "../state";
 import { useActions } from "../hooks/use-actions";
 import { useTypedSelector } from "../hooks/use-typed-selector";
 import "../style/code-cell.css";
+import { useCumulativeCode } from "../hooks/use-cumulative-code";
 
 interface CodeCellProps {
   cell: Cell;
@@ -19,16 +20,25 @@ const CodeCell: React.FC<CodeCellProps> = ({ cell }) => {
     (state) => state.bundles && state.bundles[cell.id]
   );
 
+  const cumulativeCode = useCumulativeCode(cell.id);
+
   useEffect(() => {
-    const timer = setTimeout(async () => {
-      createBundle(cell.id, cell.content);
+    if (!bundle) {
+      createBundle(cell.id, cumulativeCode);
+
+      return;
+    }
+    const timer = setTimeout(() => {
+      createBundle(cell.id, cumulativeCode);
     }, 1000);
 
     return () => {
       clearTimeout(timer);
     };
-  }, [cell.content, cell.id, createBundle]);
-  console.log(bundle);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [cell.content, cell.id, createBundle, cumulativeCode]);
+
   return (
     <Resizable direction="vertical">
       <div style={{ height: "100%", display: "flex", flexDirection: "row" }}>
@@ -36,6 +46,7 @@ const CodeCell: React.FC<CodeCellProps> = ({ cell }) => {
           initialValue={cell.content}
           onChange={(value) => updateCell(cell.id, value)}
         />
+
         <div className="progress-wrapper">
           {!bundle || bundle.loading ? (
             <div className="progress-cover">
